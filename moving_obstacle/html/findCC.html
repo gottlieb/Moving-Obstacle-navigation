@@ -1,0 +1,152 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>findCC</title>
+      <meta name="generator" content="MATLAB 7.4">
+      <meta name="date" content="2011-02-18">
+      <meta name="m-file" content="findCC"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#2">findCC</a></li>
+               <li><a href="#3">Inputs</a></li>
+               <li><a href="#4">Outputs</a></li>
+               <li><a href="#5">Copyright</a></li>
+            </ul>
+         </div><pre class="codeinput"><span class="keyword">function</span> [thcl,thcr] = findCC( p, po, r )
+</pre><h2>findCC<a name="2"></a></h2>
+         <p>Find the two lines to determine absolute collision cone of the robot with the location 'p' relative to the obstacle with the
+            location 'po' and radius 'r'.
+         </p>
+         <h2>Inputs<a name="3"></a></h2>
+         <div>
+            <ul>
+               <li>p   : the location of the robot</li>
+               <li>po  : the location of the obstacle</li>
+               <li>r   : the radius of the obstacle</li>
+            </ul>
+         </div>
+         <h2>Outputs<a name="4"></a></h2>
+         <div>
+            <ul>
+               <li>thcl : angle of the left line enclosing the collision cone</li>
+               <li>thcr : angle of the right line enclosing the collision cone</li>
+            </ul>
+         </div>
+         <h2>Copyright<a name="5"></a></h2><pre> Ji-Wung Karl Choi (jwchoi@soe.ucsc.edu)</pre><pre class="codeinput">    d = norm( po - p );
+    th = atan2( po(2)-p(2), po(1)-p(1) );
+    eta = asin( r/d );
+    <span class="keyword">if</span> ~isreal(th)
+        error(<span class="string">'Imaginary angle calculated'</span>);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> ~isreal(eta)
+        error(<span class="string">'Imaginary angle calculated'</span>);
+    <span class="keyword">end</span>
+    thcl = th + eta;
+    thcr = th - eta;
+<span class="keyword">end</span>
+</pre><p class="footer"><br>
+            Published with MATLAB&reg; 7.4<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+function [thcl,thcr] = findCC( p, po, r )
+
+%% findCC
+% Find the two lines to determine absolute collision cone of the robot with the
+% location 'p' relative to the obstacle with the location 'po' and radius
+% 'r'.
+%% Inputs
+% * p   : the location of the robot
+% * po  : the location of the obstacle
+% * r   : the radius of the obstacle
+%% Outputs
+% * thcl : angle of the left line enclosing the collision cone
+% * thcr : angle of the right line enclosing the collision cone
+%%   Copyright 
+%   Ji-Wung Karl Choi (jwchoi@soe.ucsc.edu)
+%   $Revision: 1.5.1.1$  $Date: 2010/11/16$
+%
+
+    d = norm( po - p );
+    th = atan2( po(2)-p(2), po(1)-p(1) );
+    eta = asin( r/d );
+    if ~isreal(th)
+        error('Imaginary angle calculated');
+    end
+    if ~isreal(eta)
+        error('Imaginary angle calculated');
+    end
+    thcl = th + eta;
+    thcr = th - eta;
+end
+##### SOURCE END #####
+-->
+   </body>
+</html>

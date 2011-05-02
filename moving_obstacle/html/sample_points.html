@@ -1,0 +1,171 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>sample_points</title>
+      <meta name="generator" content="MATLAB 7.4">
+      <meta name="date" content="2011-02-18">
+      <meta name="m-file" content="sample_points"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#2">sample_points</a></li>
+               <li><a href="#3">Syntax</a></li>
+               <li><a href="#4">Inputs</a></li>
+               <li><a href="#5">Outputs</a></li>
+               <li><a href="#6">Copyright</a></li>
+            </ul>
+         </div><pre class="codeinput"><span class="keyword">function</span> [x,y] = sample_points( p, vmin, vmax, thl, thr )
+</pre><h2>sample_points<a name="2"></a></h2>
+         <p>Quantize the allowable velocity vectors in discrete system, given current velocity of the robot which is located at 'p'. The
+            allowable velocity range is circular sector constrained by the minimum and maximum velocity 'vmin' and 'vmax', and the left
+            and right heading 'thl' and 'thr'.
+         </p>
+         <h2>Syntax<a name="3"></a></h2>
+         <div>
+            <ul>
+               <li>sample_points( p, vmin, vmax, thl, thr )</li>
+            </ul>
+         </div>
+         <h2>Inputs<a name="4"></a></h2>
+         <div>
+            <ul>
+               <li>p    : the location of the robot</li>
+               <li>vmin : the minimum allowable velocity of the robot</li>
+               <li>vmax : the maximum allowable velocity of the robot</li>
+               <li>thl  : the leftmost allowable heading of the robot</li>
+               <li>thr  : the rightmost allowable heading of the robot</li>
+            </ul>
+         </div>
+         <h2>Outputs<a name="5"></a></h2>
+         <div>
+            <ul>
+               <li>(x,y) : the array of the sampled points</li>
+            </ul>
+         </div>
+         <h2>Copyright<a name="6"></a></h2><pre> Ji-Wung Karl Choi (jwchoi@soe.ucsc.edu)</pre><pre class="codeinput">    n = 5;
+    m = 3;
+    x = [];
+    y = [];
+    <span class="keyword">if</span> thl &lt; thr
+        thl = thl + 2*pi;
+    <span class="keyword">end</span>
+    theta = linspace( thr, thl, n );
+    <span class="keyword">for</span> i=1:n
+        p0 = p + vmin*[cos(theta(i)),sin(theta(i))];
+        p1 = p + vmax*[cos(theta(i)),sin(theta(i))];
+        x = [x, linspace( p0(1), p1(1), m )];
+        y = [y, linspace( p0(2), p1(2), m )];
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br>
+            Published with MATLAB&reg; 7.4<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+function [x,y] = sample_points( p, vmin, vmax, thl, thr )
+
+%% sample_points
+% Quantize the allowable velocity vectors in discrete system, given current
+% velocity of the robot which is located at 'p'. The allowable velocity range
+% is circular sector constrained by the minimum and maximum velocity 'vmin'
+% and 'vmax', and the left and right heading 'thl' and 'thr'.
+%% Syntax
+% * sample_points( p, vmin, vmax, thl, thr )
+%% Inputs
+% * p    : the location of the robot
+% * vmin : the minimum allowable velocity of the robot
+% * vmax : the maximum allowable velocity of the robot
+% * thl  : the leftmost allowable heading of the robot
+% * thr  : the rightmost allowable heading of the robot
+%% Outputs
+% * (x,y) : the array of the sampled points
+%%   Copyright 
+%   Ji-Wung Karl Choi (jwchoi@soe.ucsc.edu)
+%   $Revision: 1.5.1.1$  $Date: 2010/11/16$
+%
+
+    n = 5;
+    m = 3;
+    x = [];
+    y = [];
+    if thl < thr
+        thl = thl + 2*pi;
+    end
+    theta = linspace( thr, thl, n );
+    for i=1:n
+        p0 = p + vmin*[cos(theta(i)),sin(theta(i))];
+        p1 = p + vmax*[cos(theta(i)),sin(theta(i))];
+        x = [x, linspace( p0(1), p1(1), m )];
+        y = [y, linspace( p0(2), p1(2), m )];
+    end
+end
+##### SOURCE END #####
+-->
+   </body>
+</html>
